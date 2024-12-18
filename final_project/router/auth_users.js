@@ -70,8 +70,22 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
     bookupdate.reviews[username]=bookreview;
     books[isbn] = bookupdate;
 
-
     res.send(books);
+});
+
+regd_users.delete("/auth/review/:isbn", (req, res) => {
+    const isbn = req.params.isbn;
+    const bookupdate = books[isbn]; 
+    const username = req.body.username;
+
+    bookupdate.reviews = Object.fromEntries(
+        Object.entries(bookupdate.reviews).filter(([key]) => key !== username)
+      );
+
+      books[isbn] = bookupdate;
+
+      res.send(books);
+
 });
 
 module.exports.authenticated = regd_users;
