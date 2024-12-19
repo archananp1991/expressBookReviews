@@ -24,35 +24,92 @@ public_users.post("/register", (req,res) => {
  
 });
 
+
 // Get the book list available in the shop
 public_users.get('/',function (req, res) {
-    res.send(JSON.stringify({books}, null, 4));
+    const myPromise = new Promise((resolve, reject) => {
+        let success = true; 
+        if (success) { 
+          resolve(JSON.stringify({books}, null, 4));
+        } else { 
+          reject("The operation failed!");
+        } 
+      });
+      myPromise
+      // Handle the resolved state of the promise
+      .then((message) => { 
+        res.send(message); // "The operation was successful!"
+      }) 
+      .catch((error) => { 
+        res.send(error); // "The operation failed!"
+      });
 });
 
 // Get book details based on ISBN
 public_users.get('/isbn/:isbn',function (req, res) {
-  const isbn = req.params.isbn;
+    const isbn = req.params.isbn;
     const book = books[isbn];
-    if (book) {
-      res.send(book);
-      } 
+    const myPromise = new Promise((resolve, reject) => {
+        if (book) {
+          resolve(book);
+        } else { 
+          reject("The operation failed!");
+        } 
+      });
+      myPromise
+      // Handle the resolved state of the promise
+      .then((message) => { 
+       res.send(message); // "The operation was successful!"
+      }) 
+      .catch((error) => { 
+        res.send(error); // "The operation failed!"
+      });
+ 
  });
   
+
 // Get book details based on author
 public_users.get('/author/:author',function (req, res) {
-   // const isbn = req.params.isbn;
    const author = req.params.author;
    const bookdetail = Object.values(books).filter((book) => book.author === author);
-   
-    res.send(bookdetail);
+   const myPromise = new Promise((resolve, reject) => {
+    if (author) { 
+      resolve(bookdetail);
+    } else { 
+      reject("The operation failed!");
+    } 
+  });
+  myPromise
+  // Handle the resolved state of the promise
+  .then((message) => { 
+    res.send(bookdetail); // "The operation was successful!"
+  }) 
+  .catch((error) => { 
+    res.send(error); // "The operation failed!"
+  });
 });
 
 // Get all books based on title
 public_users.get('/title/:title',function (req, res) {
+
   const title=req.params.title;
   const bookdetail=Object.values(books).filter((book) => book.title === title);
+ const myPromise = new Promise((resolve, reject) => {
+        if (title) { 
+          resolve(bookdetail);
+        } else { 
+          reject("The operation failed!");
+        } 
+      });
+      myPromise
+      // Handle the resolved state of the promise
+      .then((message) => { 
+        res.send(bookdetail); // "The operation was successful!"
+      }) 
+      .catch((error) => { 
+        res.send(error); // "The operation failed!"
+      });
 
-  res.send(bookdetail);
 });
 
 //  Get book review
